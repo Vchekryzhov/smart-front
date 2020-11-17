@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const httpClient = () => {
-	const baseUrl = process.env.VUE_APP_API_ENDPOINT;
+	const baseUrl = "https://smart.kovalev.team/api/";
 
 	return axios.create({
 		baseURL: baseUrl,

@@ -159,6 +159,7 @@
         id='four-main'
         class='main-card'>
           <v-col
+            v-if="showResult"
             width="300"
             cols=columnCount
           >
@@ -168,6 +169,7 @@
                   ВВЕДИ СВОЮ ЦЕЛЬ
                 </h2>
               <v-textarea
+                v-model="query"
                 solo
                 name="input-7-4"
                 label="до 17 марта обзвонить и проинформировать 100 клиентов из базы данных"
@@ -185,6 +187,82 @@
                 ОТПРАВИТЬ
               </v-btn>
                 <svg viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg" class="big mXlbn"><path d="M130 65.7201v-1.4402c-28.809-.9002-41.9439-1.5843-52.4411-11.837C67.3137 41.9471 66.5845 28.7779 65.7202 0h-1.4404c-.9003 28.8049-1.5845 41.9471-11.8387 52.4429C41.9439 62.6956 28.7819 63.4157 0 64.2799v1.4402c28.8089.9002 41.9439 1.5843 52.4411 11.837C62.6953 88.0529 63.4155 101.222 64.2798 130h1.4404c.9003-28.805 1.5935-41.9471 11.8387-52.4429C88.0561 67.3044 101.218 66.5843 130 65.7201z" fill="white"></path></svg>
+            </p>
+            </div>
+          </v-col>
+          <v-col
+          v-else
+          class="result"
+          >
+            <div >
+              <h1>
+                РЕЗУЛЬТАТ:
+              </h1>
+              <p class="smart-p"
+              v-bind:class="{ active: sActive }">
+                <span>
+                  S
+                </span>
+              </p>
+              <p class="smart-p"
+              v-bind:class="{ active: mActive }">
+                <span>
+                  M
+                </span>
+              </p class="smart-p">
+              <p class="smart-p"
+              v-bind:class="{ active: aActive }">
+                <span>
+                  A
+                </span>
+              </p >
+              <p class="smart-p"
+              v-bind:class="{ active: rActive }">
+                <span>
+                  R
+                </span>
+              </p>
+              <p class="smart-p"
+              v-bind:class="{ active: tActive }">
+                <span>
+                  T
+                </span>
+              </p>
+
+              </p>
+            </div>
+              <v-simple-table>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">
+                        Критерий
+                      </th>
+                      <th class="text-left">
+                        Коментарий
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="item in additionals"
+                      :key="item.name"
+                    >
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.desc }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            <div>
+              <p id="p-button">
+                <v-btn
+                class="ma-2"
+                color="secondary"
+                @click="resetResult = 'resetResulloading'"
+                >
+                СБРОСИТЬ РЕЗУЛЬТАТ
+              </v-btn>
             </p>
             </div>
           </v-col>
@@ -227,6 +305,8 @@
 
 <script>
 import MainCardComponent from "@/components/node/MainCardComponent";
+import NodesService from "@/services/NodesService.js";
+
   const gradients = [
     ['#222'],
     ['#42b3f4'],
@@ -270,25 +350,83 @@ export default {
       'mdi-instagram',
     ],
     loader: null,
+    resetResult: null,
+    resetResulloading: false,
     loading: false,
+    result: {},
+    query: "",
+    service: NodesService
 	}),
 	computed: {
     firstStyle() {
       return {
         "background-color": "black",
       };
+    },
+    showResult() {
+      return Object.keys(this.result).length == 0
+    },
+    sActive(){
+      return !!this.result['S']
+    },
+    mActive(){
+      return !!this.result['M']
+    },
+    aActive(){
+      return !!this.result['A']
+    },
+    rActive(){
+      return !!this.result['R']
+    },
+    tActive(){
+      return !!this.result['T']
+    },
+    additionals(){
+      var arr = []
+
+      if (!!this.result["education"]){
+        arr.push({
+          name: "Ваша цель относится к образованию",
+          desc: "Да"
+        })
+      }
+
+      if (!!this.result["unambiguity"]){
+        arr.push({
+          name: "Ваша цель однозначна",
+          desc: "Да"
+        })
+      }
+      return arr;
     }
 	},
    watch: {
-      loader () {
+      async loader () {
         const l = this.loader
         this[l] = !this[l]
-
-        setTimeout(() => (this[l] = false), 3000)
-
         this.loader = null
+        this[l] = false
+        this.result = await this.service.query(this.query)
       },
+      resetResult () {
+        const r = this.resetResult
+        this[r] = !this[r]
+        this.resetResult = null
+        this.result = {}
+      }
     },
+    metaInfo() {
+          return {
+              title: "SMART",
+              meta: [
+                  { name: 'description', content:  ''},
+                  { property: 'og:title', content: "SMART"},
+                  { property: 'og:site_name', content: 'SMART.KOVALEV.TEAM'},
+                  {property: 'og:type', content: 'website'},
+                  {property: 'og:image', content: '../assets/img/logo.png'},
+              ]
+          }
+    }
 
 };
 </script>
@@ -388,6 +526,51 @@ export default {
       height: 400px;
       position: relative;
       margin-left: 70%;
+    }
+    .result{
+      div{
+        width: 80%;
+        min-height: 40vh;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 100;
+      }
+      p.active{
+        background: linear-gradient(153deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 11%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 1 !important;
+      }
+      p.smart-p{
+        opacity: 0.1;
+        width: 15%;
+        float: left;
+        margin-left: 50px;
+        text-align: justify;
+        span{
+          text-align: center;
+          font-size: 120px;
+        }
+        img{
+          width: 100%;
+          opacity: 0.9;
+          border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
+          margin-top: 20px;
+        }
+      }
+      #p-button{
+        text-align: center;
+      }
+      h1{
+        text-align: center;
+      }
+    }
+  }
+
+
+  footer{
+    div{
+      width: 100%;
     }
   }
 </style>
