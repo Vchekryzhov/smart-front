@@ -49,8 +49,9 @@
 </template>
 
 <script>
+
 export default {
-	name: "PreviewNodeComponent",
+	name: "MainCardComponent",
 	props: {
 		node: {
 			type: Object,

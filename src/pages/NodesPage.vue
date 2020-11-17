@@ -1,6 +1,5 @@
 
 <template>
-
     <v-main>
       <v-container>
         <v-row id='nodes-list'>
@@ -22,7 +21,6 @@
 </template>
 <script>
 
-import PreviewNodeComponent from "@/components/node/PreviewNodeComponent";
 import NodesService from "@/services/NodesService.js";
 
 export default {
@@ -31,10 +29,10 @@ export default {
 		PreviewNodeComponent
 	},
 	async mounted() {
-    this.nodes = await NodesService.getAll();
+    // this.nodes = await NodesService.getAll();
   },
 	data: () => ({
-    nodes: []
+    
 	}),
   computed: {
     columnCount() {
