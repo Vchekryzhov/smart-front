@@ -196,8 +196,11 @@
           >
             <div >
               <h1>
-                РЕЗУЛЬТАТ:
+                ТВОЯ ЦЕЛЬ:
               </h1>
+              <p>
+                {{query}}
+              </p>
               <p class="smart-p"
               v-bind:class="{ active: sActive }">
                 <span>
@@ -413,6 +416,7 @@ export default {
         this[r] = !this[r]
         this.resetResult = null
         this.result = {}
+        this.query = ""
       }
     },
     metaInfo() {
@@ -563,6 +567,9 @@ export default {
       }
       h1{
         text-align: center;
+      }
+      .v-data-table{
+        border-radius: 7px;
       }
     }
   }
