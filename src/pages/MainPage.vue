@@ -18,7 +18,7 @@
             min-height="50"
             transition="fade-transition"
           >
-            <img v-if="kLogoDelay" id="main-logo" src="../assets/img/logo.png" alt="avatar" />
+            <img v-if="kLogoDelay" id="main-logo" src="../assets/img/logo_transparent.png" alt="avatar" />
           </v-lazy>
                                   <br />
                                   <br />
@@ -534,7 +534,7 @@ export default {
     .result{
       div{
         width: 80%;
-        min-height: 40vh;
+        min-height: 300px;
         margin-left: auto;
         margin-right: auto;
         z-index: 100;
