@@ -473,7 +473,7 @@ export default {
     div{
       position: relative;
       width: 80%;
-      // min-height: 93vh;
+      min-height: 93vh;
       margin-left: auto;
       margin-right: auto;
     }
@@ -526,6 +526,9 @@ export default {
         border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
         margin-top: 20px;
       }
+    }
+    div{
+      min-height: 1vh !important;
     }
   }
   #four-main{
