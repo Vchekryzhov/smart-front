@@ -153,8 +153,34 @@
 
             </p>
           </div>
+            <div>
+              <p>
+                <img class="attr-image" src="../assets/img/mortarboard.svg" alt="avatar" />
+                <b>Образование</b> представляет собой основной компонент развития. Оно расширяет возможности людей и является ключом к достижению целей.
+              </p>
+              <p>
+
+              </p>
+              <p>
+                <img class="attr-image" src="../assets/img/precision.svg" alt="avatar" />
+                  Правильная цель должна быть очень крутой и давать заряд счастья. Цель становится эффективной только тогда, когда затрагивает ваши чувства. Она <b>однозначна</b> и непоколебима.
+              </p>
+            </div>
           </v-col>
         </v-row>
+          <v-fab-transition>
+            <v-btn
+              color="pink"
+              dark
+              fixed
+              right
+              bottom
+              fab
+              @click="$vuetify.goTo('#four-main')"
+              >
+                GO
+              </v-btn>
+            </v-fab-transition>
         <v-row
         id='four-main'
         class='main-card'>
@@ -168,6 +194,10 @@
                 <h2>
                   ВВЕДИ СВОЮ ЦЕЛЬ
                 </h2>
+                <br />
+                <p>
+                  Наша система определит насколько твоя цель соответвует критериями смарт и поможет правильно её сформулировать
+                </p>
               <v-textarea
                 v-model="query"
                 solo
@@ -234,29 +264,14 @@
 
               </p>
             </div>
-              <v-simple-table>
-                <template v-slot:default>
-                  <thead>
-                    <tr>
-                      <th class="text-left">
-                        Критерий
-                      </th>
-                      <th class="text-left">
-                        Коментарий
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="item in additionals"
-                      :key="item.name"
-                    >
-                      <td>{{ item.name }}</td>
-                      <td>{{ item.desc }}</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+            <div>
+              <p>
+                <img v-if="eduActive" v-bind:class="{ active: eduActive }" class="attr-image" src="../assets/img/mortarboard-gray.svg" alt="avatar" />
+                <img v-else class="attr-image" src="../assets/img/mortarboard-gray-unactive.svg" alt="avatar" />
+                <img v-if="unamActive" v-bind:class="{ active: unamActive }" class="attr-image" src="../assets/img/precision-gray.svg" alt="avatar" />
+                <img v-else  class="attr-image" src="../assets/img/precision-gray-unactive.svg" alt="avatar" />
+              </p>
+            </div>
             <div>
               <p id="p-button">
                 <v-btn
@@ -384,6 +399,12 @@ export default {
     tActive(){
       return !!this.result['T']
     },
+    eduActive(){
+      return !!this.result['education']
+    },
+    unamActive(){
+      return !!this.result['unambiguity']
+    },
     additionals(){
       var arr = []
 
@@ -452,10 +473,9 @@ export default {
     div{
       position: relative;
       width: 80%;
-      min-height: 93vh;
+      // min-height: 93vh;
       margin-left: auto;
       margin-right: auto;
-      z-index: 100;
     }
   }
 
@@ -532,12 +552,17 @@ export default {
       margin-left: 70%;
     }
     .result{
+      img{
+        opacity: 0.1;
+      }
+      img.active{
+        opacity: 1 !important;
+      }
       div{
         width: 80%;
-        min-height: 300px;
+        min-height: 200px;
         margin-left: auto;
         margin-right: auto;
-        z-index: 100;
       }
       p.active{
         background: linear-gradient(153deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 11%);
@@ -555,12 +580,6 @@ export default {
           text-align: center;
           font-size: 120px;
         }
-        img{
-          width: 100%;
-          opacity: 0.9;
-          border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
-          margin-top: 20px;
-        }
       }
       #p-button{
         text-align: center;
@@ -573,7 +592,10 @@ export default {
       }
     }
   }
-
+  .attr-image{
+    width: 150px;
+    margin-right: 50px;
+  }
 
   footer{
     div{
