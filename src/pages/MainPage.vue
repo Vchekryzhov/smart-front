@@ -286,6 +286,57 @@
           </v-col>
         </v-row>
       </v-container>
+      <div class=" text-center">
+      <v-dialog
+        v-model="dialog"
+        width="500"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="red lighten-2"
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            Click Me
+          </v-btn>
+        </template>
+
+        <v-card>
+          <v-card-title class="modal-grad headline orange ">
+            <p>
+              Попробуй сформулировать свою цель <br /> иначе
+            </p>
+          </v-card-title>
+
+          <v-card-text class="black-text">
+            <h>НАПРИМЕР:</h>
+            <p>
+              Увеличить продажи бренда А на территории России к концу года на 25%
+            </p>
+            <p>
+              Достичь уровня знания товара А среди молодой аудитории на уровне 51% через 3 года, после запуска товара на рынок.
+            </p>
+            <p>
+              Завести бренд компании в количестве 3 SKU в ТОП-10 ключевых торговых сетей до июля 2014 года.
+            </p>
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions class="modal-grad">
+            <v-spacer></v-spacer>
+            <v-btn
+              color="black"
+              text
+              @click="dialog = false"
+            >
+              Ввести заново
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
         <v-footer
     padless
   >
@@ -318,7 +369,7 @@
       </v-card-text>
     </v-card>
   </v-footer>
-    </v-main>
+  </v-main>
 </template>
 
 <script>
@@ -373,7 +424,8 @@ export default {
     loading: false,
     result: {},
     query: "",
-    service: NodesService
+    service: NodesService,
+    dialog: false,
 	}),
 	computed: {
     firstStyle() {
@@ -430,7 +482,11 @@ export default {
         this[l] = !this[l]
         this.loader = null
         this[l] = false
-        this.result = await this.service.query(this.query)
+        if (this.query?.split(" ").length < 3){
+          this.dialog = true;
+        }else{
+          this.result = await this.service.query(this.query)
+        }
       },
       resetResult () {
         const r = this.resetResult
@@ -598,6 +654,13 @@ export default {
   .attr-image{
     width: 150px;
     margin-right: 50px;
+  }
+  .modal-grad{
+    background: rgb(253,29,29) !important;
+    background: linear-gradient(153deg, rgba(253,29,29,1) 0%, rgba(252,176,69,1) 11%) !important;
+  }
+  .black-text{
+    color: black !important;
   }
 
   footer{
