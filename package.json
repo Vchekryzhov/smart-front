@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "deploy": "rsync -e 'ssh -p 2848' -a --delete-before dist/ serveriot@cnc.kovalev.team:/home/serveriot/smart-front/ --delete",
+    "deploy": "rsync -e 'ssh -p 2848' -a --delete-before dist/ serveriot@cnc.kovalev.team:/home/serveriot/smart-front/ --delete"
   },
   "dependencies": {
     "axios": "^0.21.0",

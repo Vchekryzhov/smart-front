@@ -472,7 +472,10 @@ export default {
         this[l] = !this[l]
         this.loader = null
         this[l] = false
-        if (this.query?.split(" ").length < 3){
+        if (this.query?.split(" ").length < 3 ||
+        ['кто','что', '?', 'кого', "чего", "кому", "чему", "кого", "кем"].includes(this.query?.split(" ")[0]) ||
+        this.query?.split(" ").includes("?") 
+        ){
           this.dialog = true;
         }else{
           this.result = await this.service.query(this.query)
