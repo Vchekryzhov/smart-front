@@ -473,7 +473,7 @@ export default {
         this.loader = null
         this[l] = false
         if (this.query?.split(" ").length < 3 ||
-        ['кто','что', '?', 'кого', "чего", "кому", "чему", "кого", "кем"].includes(this.query?.split(" ")[0].toLowerCase()) ||
+        ['кто','что', '?', 'кого', "чего", "кому", "чему", "кого", "кем", "зачем", "почему"].includes(this.query?.split(" ")[0].toLowerCase()) ||
         this.query?.split(" ").includes("?")
         ){
           this.dialog = true;
